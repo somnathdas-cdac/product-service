@@ -1,21 +1,27 @@
 package com.microservice.ecart.product.controller;
 
-import com.microservice.ecart.product.exception.ResourceNotFoundException;
+/*****
+ * 
+ * 
+ * 
+ * 
+ *
+
 import com.microservice.ecart.product.model.Category;
 import com.microservice.ecart.product.model.Product;
 import com.microservice.ecart.product.repository.ProductRepository;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
-public class ProductController {
+public class ProductController2 {
 
     private final ProductRepository productRepository;
 
-    public ProductController(ProductRepository productRepository) {
+    public ProductController2(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
@@ -25,22 +31,22 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        // If empty, throws exception caught cleanly by GlobalExceptionHandler
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + id));
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/category/{categoryName}")
     public List<Product> getProductsByCategory(@PathVariable String categoryName) {
-        // If valueOf fails, it throws IllegalArgumentException caught cleanly by GlobalExceptionHandler
         Category category = Category.valueOf(categoryName.toUpperCase());
         return productRepository.findByCategory(category);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED) // Explicitly return HTTP 201 Created status
     public Product createProduct(@RequestBody Product product) {
         return productRepository.save(product);
     }
 }
+
+*/
