@@ -24,6 +24,8 @@ public class ProductController {
         return productRepository.findAll();
     }
 
+    
+    
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
         // If empty, throws exception caught cleanly by GlobalExceptionHandler
