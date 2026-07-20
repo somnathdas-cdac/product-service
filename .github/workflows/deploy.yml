@@ -61,7 +61,13 @@ jobs:
           mkdir -p ~/apps/product-service
           cd ~/apps/product-service
           echo "REGISTRY_USERNAME=${{ secrets.REGISTRY_USERNAME }}" > .env
-          echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
-          docker pull ${{ secrets.REGISTRY_USERNAME }}/product-service:latest
-          docker compose down || true
-          docker compose up -d
+          
+          # Authenticate to Docker Hub using sudo permissions
+          echo "${{ secrets.REGISTRY_PASSWORD }}" | sudo docker login -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
+          
+          # Pull the newest container image using sudo permissions
+          sudo docker pull ${{ secrets.REGISTRY_USERNAME }}/product-service:latest
+          
+          # Restart services cleanly using sudo docker compose
+          sudo docker compose down || true
+          sudo docker compose up -d
